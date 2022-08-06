@@ -12,6 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<UserModel>? _userModel = [];
+
   @override
   void initState() {
     super.initState();
@@ -31,36 +32,44 @@ class _HomeState extends State<Home> {
       ),
       body: _userModel == null || _userModel!.isEmpty
           ? const Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : ListView.builder(
-              itemCount: _userModel!.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
+        itemCount: _userModel!.length,
+        // reverse: true,
+        itemBuilder: (context, index) {
+          return InkWell(
+            child: Card(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(_userModel![index].id.toString()),
-                          Text(_userModel![index].username),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(_userModel![index].email),
-                          Text(_userModel![index].website),
-                        ],
-                      ),
+                      Text(_userModel![index].id.toString(),
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold)),
+                      Text(_userModel![index].username),
                     ],
                   ),
-                );
-              },
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(_userModel![index].email),
+                      Text(_userModel![index].website),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            onTap: () => Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text(_userModel![index].username))),
+          );
+        },
+      ),
     );
   }
 }
